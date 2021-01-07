@@ -40,7 +40,7 @@
 					?>
 				</div>
 				<div class="header">Lista de Professor</div>  
-				<div id="div_lista">
+				<div id="info">
 					<?php
 						include_once("listagem_professor.php");
 					?>

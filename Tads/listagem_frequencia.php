@@ -1,15 +1,13 @@
-<div class="container">
+<div class="container" id="listar_frequencia" >
 <table class="table table-striped">
 	
 	<thead>
-		<tr>
+		<tr class =>
 			
-			<th>Presente</th>
-			<th>Falta</th>	
-			<th>Aluno</th>
-			
-			<!--<th>Editar</th>-->
+			<th>Data</th>
+			<th>Situação</th>	
 			<th>Excluir</th>
+
 		</tr>
 	</thead>
 	<!--<tbody>

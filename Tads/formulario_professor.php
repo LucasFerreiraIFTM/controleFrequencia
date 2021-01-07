@@ -55,4 +55,6 @@ var tarefasDB = firebase.database().ref("Professores");
 var professor = { "nome": nome, "cpf": cpf, "email":email};
 tarefasDB.push(professor);
 }
+
 </script>
+<script src="js/script.js"></script>

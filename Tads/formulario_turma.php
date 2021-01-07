@@ -22,7 +22,9 @@
 		
 		<div class="col-6 form-group">
 			<label for="professor">Professor:</label>
-			<input type="text" name="professor" id="professor" class="form-control"/>
+			<select type="text" name="professor" id="professor" class="form-control">
+				<option value="exemplo">Exemplo</option>
+			</select>
 			
 			<!--<select id="professor" name="professor[]" multiple="multiple" class="form-control 
             {{ ($errors->get('professor') != null) ? 'is-invalid' : '' }}" >

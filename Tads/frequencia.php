@@ -13,7 +13,7 @@
 		<script src="js/jquery.mask.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/multiple-select.js"></script>
-		<script src="js/script.js"></script>
+		
 	</head>
 	
 	
@@ -52,5 +52,9 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
+		
 	<body>
 </html>

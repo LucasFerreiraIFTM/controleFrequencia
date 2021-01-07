@@ -40,7 +40,7 @@
 			<div class="main_content ">
 				<div class="header ">Escolha um novo cadastro</div>  
 				<div class="image-cadastros">
-					
+					<img src="css/Imagens/Logo Azul.png" class="img-fluid mx-auto d-block image" height="500" width="500"alt="Logo Azul">
 				</div>
 			</div>
 		</div>
