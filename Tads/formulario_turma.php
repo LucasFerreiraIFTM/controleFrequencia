@@ -68,5 +68,11 @@
 	  var turmaDB = firebase.database().ref("Turma");
 	  var turma = { "nome": nome, "semestre": semestre, "ano":ano, "professor":professor};
 	  turmaDB.push(turma);
+	  window.alert("Turma criada com sucesso!")	
+	 
+	  document.getElementById("nome").value = "";
+	  document.getElementById("semestre").value = "";
+	  document.getElementById("ano").value = "";
+	  document.getElementById("professor").value = "";
 	}
 </script>

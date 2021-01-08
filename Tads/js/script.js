@@ -42,10 +42,12 @@ if (!firebase.apps.length) {
       data={email,cpf,nome}
       fb.child('Professores/'+teste).update(data);
       console.log(teste);
+      window.alert("Professor editado com sucesso!")	
   }
   function deletProf(teste){
     const fb = firebase.database().ref();
     fb.child('Professores/'+teste).remove()
+    window.alert("Professor deletado com sucesso!")	
   }
 
    
@@ -74,6 +76,7 @@ if (!firebase.apps.length) {
       data={ano,semestre,nome,professor}
       fb.child('Turma/'+teste).update(data);
       console.log(teste);
+      window.alert("Turma editada com sucesso!")	
   }
   function deletTurm(teste){
     const fb = firebase.database().ref();
@@ -105,10 +108,12 @@ if (!firebase.apps.length) {
       data={cpf,Email,nome,matricula}
       fb.child('Alunos/'+teste).update(data);
       console.log(teste);
+      window.alert("Aluno editado com sucesso!")	
   }
   function deletAluno(teste){
     const fb = firebase.database().ref();
-    fb.child('Alunos/'+teste).remove()
+    fb.child('Alunos/'+teste).remove();
+    window.alert("Aluno deletado com sucesso!")	
   }
 
 
@@ -125,6 +130,30 @@ if (!firebase.apps.length) {
       selectTurmas.innerHTML = dadosT;
    })
   
+   var selectTurmas2 = document.getElementById("turma2");
+   var dadosT2 = "<select><option></option>";
+   var dbTurma2 = firebaseRef = firebase.database().ref().child("Turma");
+   dbTurma2.on('value',function(snapshot){
+      var turmas2 = snapshot.val();
+      for(i in turmas2) {
+        dadosT2 = dadosT2 + "<option>"+turmas2[i].nome+"</option>";
+      }
+      dadosT2 = dadosT2+ "</select>";
+      selectTurmas2.innerHTML = dadosT2;
+   })
+
+
+   var selectAlunos = document.getElementById("selectAlunos");
+   var dadosAlunos = "<select><option></option>";
+   var dbAlunos01 = firebaseRef = firebase.database().ref().child("Alunos");
+   dbAlunos01.on('value',function(snapshot){
+      var Alunos7 = snapshot.val();
+      for(i in Alunos7) {
+        dadosAlunos = dadosAlunos + "<option>"+Alunos7[i].nome+"</option>";
+      }
+      dadosAlunos = dadosAlunos+ "</select>";
+      selectAlunos.innerHTML = dadosAlunos;
+   })
 
   var selectProfessores = document.getElementById("professor");
    var dadosP = "<select><option></option>";
@@ -135,81 +164,91 @@ if (!firebase.apps.length) {
         dadosP = dadosP + "<option>"+professores[i].nome+"</option>";
       }
       dadosP = dadosP+ "</select>";
-      console.log(dadosP)
       selectProfessores.innerHTML = dadosP;
    })
 $(document).ready(function(){
-
-
     $("#cpf").mask("000.000.000-00", { placeholder: "___.___.___-__"});
-
-
 });
 
 
 
 function validar(){
-
-
     var cpf = $("#cpf").cleanVal();
-
-
-
     if (cpf.length != 11) {
-
         alert("Digite 11 digitos para o CPF!")
-
     }
-
 }
-
-  
 
 function salvarF(){
+
   data = document.getElementById("data").value;
-	turma = document.getElementById("turma").value;
-	nome_aluno = document.getElementById("nome_aluno").value;
-  freq = document.getElementById("freq").value;
+  turma = document.getElementById("turma").value;
+  var contador = 0;
+  var contador2 = 0;
   var adc = {};
-  adc[data] = freq;
-	var db9 = firebaseRef =  firebase.database().ref().child("Alunos");
-	db9.on('value',function(snapshot){
-		var alunos = snapshot.val();
-		for(i in alunos) {		
-			if(alunos[i].nome == nome_aluno){
-        db9.child(i+"/frequencia/"+turma+"/").update(adc)
-			}
-		}
-	})
+  var nome_aluno = [];
+  freq = [];
+  var  db9 = firebaseRef =  firebase.database().ref().child("Alunos");
+  tabela = document.getElementById("tabelaFreq");
+  for (i=0; i < tabela.rows.length; i++){
+    colunas = tabela.rows[i].childNodes;
+    for (j=0; j < colunas.length; j++){
+      elementos = colunas[j].childNodes;
+      //console.log(elementos)
+      for (l=0; l < elementos.length; l++){
+       //console.log(elementos[l].parentElement)
+        if(elementos[l].parentElement.id == "nomeAluno"){
+          //console.log(elementos[l].parentElement)
+          nome_aluno[contador] = elementos[l].parentElement.innerText;
+          contador++;
+        }
+        if (elementos[l].type == "select-one"){
+          indexEscolhido = elementos[l].options.selectedIndex;
+          freq[contador2] = elementos[l].value;
+          contador2++;
+        }
+      }
+    }
+  }
+  db9.once('value',function(snapshot){
+    var alunos = snapshot.val();
+    for(i in alunos) {
+      for(j in nome_aluno){
+        console.log("Nome: " +nome_aluno[j]+ " frequencia: " +freq[j])
+        if(alunos[i].nome == nome_aluno[j] && freq != ""){
+          adc[data] = freq[j];
+          db9.child(i+"/frequencia/"+turma+"/").update(adc)
+        }
+      }	
+    }
+  })
+  window.alert("Frequencia salva com sucesso!")	
 }
 
+
 function BuscarF(){
-	turma = document.getElementById("turma").value;
-  nome_aluno = document.getElementById("nome_aluno").value;
-  var var_lista_freq= document.getElementById("listar_frequencia");
-  var dados = "<table class='table table-striped'>";
-  dados = dados + "<thead><tr><th>Data</th><th>Situação</th><th>Excluir</th></thead><tbody>";
-	var db9 = firebaseRef =  firebase.database().ref().child("Alunos");
-	db9.once('value',function(snapshot){
-		var alunos = snapshot.val();
-		for(i in alunos) {		
-			if(alunos[i].nome == nome_aluno){
+  turma = document.getElementById("turma").value;
+  data = document.getElementById("data").value;
+  if(document.getElementById("data").value == '' || turma == ''){
+    window.alert("Prencha todos os campos!");
+  }else{
+    var var_lista_freq= document.getElementById("listar_frequencia");
+    var dados = "<table id='tabelaFreq' class='table table-striped'>";
+    dados = dados + "<thead><tr><th>Nome</th><th>Situação</th><th>Excluir</th></thead><tbody>";
+    var db9 = firebaseRef =  firebase.database().ref().child("Alunos");
+    db9.once('value',function(snapshot){
+      var alunos = snapshot.val();
+      for(i in alunos) {		
         for(j in alunos[i].frequencia) {
-            if(j == turma){
-              for(k in alunos[i].frequencia[j]){
-                console.log("chave "+ i )
-                console.log("dia "+ k)
-                console.log("materia "+ k )
-                dados = dados + "<tr class='ropdown-menu'><td>"+k+"</td><td>"+alunos[i].frequencia[j][k]+"</td><td> <a  onclick="+""+"deletFreq('"+k+"','"+j+"','"+i+"'); class='btn btn-danger'> Apagar</a></td> </tr>  " ;
-              }
-              
+            if(j == turma){              
+                dados = dados + "<tr class='ropdown-menu'><td id='nomeAluno'>"+alunos[i].nome+"</td><td><select id='selectStatus' class='form-control'><option></option><option>Presente</option><option>Falta</option></select></td><td> <a  class='btn btn-danger'>Excluir</a></td> </tr>";
             }
         }
-			}
-    }
-    dados = dados + "</tbody></table>";
-    var_lista_freq.innerHTML = dados;
-	})
+      }
+      dados = dados + "</tbody><tfoot><tr><td></td><td></td><td><a class='btn btn-success' onclick='salvarF()'>Salvar</a></td></tr></tfoot></table>";
+      var_lista_freq.innerHTML = dados;
+    })
+  }
 }
 
 function deletFreq(dia,materia, chave){
@@ -218,14 +257,24 @@ function deletFreq(dia,materia, chave){
   fb.child('Alunos/'+chave+"/frequencia/"+materia+"/"+dia).remove()
 }
 
-function criarUsuario(email){
-  window.alert(email)
-  password = '123456';
-  firebase.auth().createUserWithEmailAndPassword("qwer@hotmail.com", password)
-  .then((user) => {
-      window.alert("Usuario criado");
-    })
-    .catch((error) => {
-      window.alert("Usuario não criado");
-    });
+
+
+function AdicionarTurma(){
+  const fb2 = firebase.database().ref();
+  turma = document.getElementById("turma2").value;
+  nome = document.getElementById("selectAlunos").value;
+  var data= {}
+  var dbAlunos2 = firebaseRef = firebase.database().ref().child("Alunos");
+  dbAlunos2.once('value',function(snapshot){
+    var alunos2 = snapshot.val();
+    for(i in alunos2) {
+      
+      if(alunos2[i].nome == nome){
+        data[turma]={"10-12" : "Presente"}
+        //window.alert("data");
+        fb2.child('Alunos/'+i+"/frequencia/").update(data);
+      }
+    }
+  })	
+  window.alert("Turma salva com sucesso!")	
 }

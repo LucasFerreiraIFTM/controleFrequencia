@@ -54,6 +54,11 @@ nome = document.getElementById("nome").value;
 var tarefasDB = firebase.database().ref("Professores");
 var professor = { "nome": nome, "cpf": cpf, "email":email};
 tarefasDB.push(professor);
+window.alert("Professor salvo com sucesso!")
+
+document.getElementById("email").value="";	
+document.getElementById("nome").value="";
+document.getElementById("cpf").value="";
 }
 
 </script>

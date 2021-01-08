@@ -27,7 +27,7 @@
 	<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-auth.js"></script>
-	<script src="/__/firebae/8.1.1/firebase-database.js"></script>
+	<script src="/__/firebase/8.1.1/firebase-database.js"></script>
     <script src="/__/firebase/init.js"></script>
 	<script src="js/script.js"></script>
 	

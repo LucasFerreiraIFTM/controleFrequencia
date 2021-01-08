@@ -25,21 +25,6 @@
 		</div>
 		
 		<div class="col-4 form-group">
-			<label for="nome_aluno">Aluno:</label>
-			<input type="text" name="nome_aluno" id="nome_aluno" class="form-control">
-		</div>
-
-		<div class="col-4 form-group">
-			<label for="freq">frequencia:</label>
-			<select type="text" name="freq" id="freq" value="" class="form-control">
-				<option value="Falta">Falta</option>
-				<option value="Presente">Presente</option>
-			</select>
-		</div>
-		
-		
-		
-		<div class="col-4 form-group">
 			<label for="data">Data:</label>
 			<input type="date" name="data" id="data" value="" class="form-control"/>
 		</div>
@@ -48,11 +33,6 @@
 			<input type="hidden" name="id" value="" />
 			<button type="button" class="btn btn-primary botons btn-block">Editar</button>
 		</div>-->
-
-		<div class="col-4 form-group">
-			<input type="hidden" name="id" value="" />
-			<button onclick="salvarF()" type="button" class="btn btn-success botons btn-block">Salvar</button>
-		</div>
 
 		<div class="col-4 form-group">
 			<input type="hidden" name="id" value="" />

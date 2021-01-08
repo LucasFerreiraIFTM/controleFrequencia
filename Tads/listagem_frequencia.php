@@ -7,6 +7,7 @@
 			<th>Data</th>
 			<th>Situação</th>	
 			<th>Excluir</th>
+			<th><a class='btn btn-success'>Salvar</a></th>
 
 		</tr>
 	</thead>
