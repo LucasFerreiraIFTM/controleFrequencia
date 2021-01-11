@@ -146,7 +146,7 @@ if (!firebase.apps.length) {
    var selectAlunos = document.getElementById("selectAlunos");
    var dadosAlunos = "<select><option></option>";
    var dbAlunos01 = firebaseRef = firebase.database().ref().child("Alunos");
-   dbAlunos01.on('value',function(snapshot){
+   dbAlunos01.once('value',function(snapshot){
       var Alunos7 = snapshot.val();
       for(i in Alunos7) {
         dadosAlunos = dadosAlunos + "<option>"+Alunos7[i].nome+"</option>";
@@ -214,9 +214,10 @@ function salvarF(){
     var alunos = snapshot.val();
     for(i in alunos) {
       for(j in nome_aluno){
-        console.log("Nome: " +nome_aluno[j]+ " frequencia: " +freq[j])
-        if(alunos[i].nome == nome_aluno[j] && freq != ""){
+        //console.log("Nome: " +nome_aluno[j]+ " frequencia: " +freq[j])
+        if(alunos[i].nome == nome_aluno[j] && freq[j] != ""){
           adc[data] = freq[j];
+          //console.log("Entrou ",nome_aluno[j] )
           db9.child(i+"/frequencia/"+turma+"/").update(adc)
         }
       }	
@@ -263,18 +264,27 @@ function AdicionarTurma(){
   const fb2 = firebase.database().ref();
   turma = document.getElementById("turma2").value;
   nome = document.getElementById("selectAlunos").value;
+  console.log(turma, nome)
+  if(nome == ''){
+    window.alert("Escolha um(a) aluno(a)");
+    return 0;
+  }
+  if(turma == ''){
+    window.alert("Escolha uma turma");
+    return 0;
+  }
   var data= {}
   var dbAlunos2 = firebaseRef = firebase.database().ref().child("Alunos");
   dbAlunos2.once('value',function(snapshot){
     var alunos2 = snapshot.val();
     for(i in alunos2) {
-      
       if(alunos2[i].nome == nome){
-        data[turma]={"10-12" : "Presente"}
+        data[turma]={"XX-XX" : "Vazio"}
         //window.alert("data");
         fb2.child('Alunos/'+i+"/frequencia/").update(data);
       }
     }
-  })	
-  window.alert("Turma salva com sucesso!")	
+  })
+  window.alert("Turma salva com sucesso!")
 }
+

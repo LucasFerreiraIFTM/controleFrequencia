@@ -1,5 +1,9 @@
 <body class ="">
-
+<head> 
+	<script src= 
+		"https://smtpjs.com/v3/smtp.js"> 
+	</script> 
+</head>
 
 <form method="POST" > 
 		
@@ -23,14 +27,14 @@
 
 				<div class="col-4 form-group">
 					<label for="nome">Nome:</label>
-					<select type="text" name="nome" id="selectAlunos" class="form-control">
+					<select type="text" name="nome" id="selectAlunos" class="form-control" required>
 						<option value=""></option>
 					</select>
 				</div>
 				
 				<div class="col-4 form-group">
 					<label for="turma">Turma:</label>
-					<select type="text" name="turma" id="turma2" class="form-control">
+					<select type="text" name="turma" id="turma2" class="form-control" required>
 						<option value=""></option>
 					</select>
 				</div>
@@ -48,22 +52,22 @@
 				
 				<div class="col-8 form-group">
 					<label for="nome">Nome:</label>
-					<input type="text" name="nome" id="nome" class="form-control"/>
+					<input type="text" name="nome" id="nome" class="form-control" required/>
 				</div>
 				<div class="col-4 form-group">
 					<label for="matricula">Matrícula:</label>
-					<input type="text" name="matricula" id="matricula" class="form-control"/>
+					<input type="text" name="matricula" id="matricula" class="form-control" required/>
 				</div>
 			</div>
 			<div class="row">
 				
 				<div class="col-6 form-group">
 					<label for="email">E-mail:</label>
-					<input type="text" name="email" id="email" class="form-control"/>
+					<input type="text" name="email2" id="email2" class="form-control" required/>
 				</div>
 				<div class="col-6 form-group">
 					<label for="cpf">CPF:</label>
-					<input type="text" name="cpf" id="cpf" class="form-control" />
+					<input type="text" name="cpf" id="cpf" class="form-control" required/>
 				</div>
 			</div>
 			<div class = "row">
@@ -81,23 +85,52 @@
 
 <script>
 	
+function ValidarAluno(){
+	console.log("entrou no validar")
+	var cpf = document.getElementById("cpf").value;
+	var nome = document.getElementById("nome").value;
+	var email = document.getElementById("email2").value;
+	var matricula = document.getElementById("matricula").value;
+	console.log(cpf, nome, email, matricula)
+	if(nome == ""){
+		alert("Campo Nome está vazio")
+		return 1;
+	}
+
+	if (cpf.length != 14) {
+		alert("Digite 11 digitos para o CPF!")
+		return 1;
+	}
+	if (matricula.length == 0) {
+		alert("digite a matricula")
+		return 1;
+	}
+
+	if(email == ""){
+		alert("Insira o email")
+		return 1;
+	}
+	return 0;
+}
+
 	function loginA(){
+		var teste = ValidarAluno();
+		if (teste == 1){
+			return;
+		}
 		nome = document.getElementById("nome").value;
 		matricula = document.getElementById("matricula").value;
-		email = document.getElementById("email").value;
+		email2 = document.getElementById("email2").value;
 		cpf = document.getElementById("cpf").value;
-		password = 123456;
 		var alunoDB = firebase.database().ref("Alunos");
-		var aluno = { "nome": nome, "matricula": matricula,  "Email": email, "cpf": cpf};
+		var aluno = { "nome": nome, "matricula": matricula,  "Email": email2, "cpf": cpf};
 		alunoDB.push(aluno);
 		document.getElementById("nome").value="";
 		document.getElementById("matricula").value="";
-		document.getElementById("email").value="";
+		document.getElementById("email2").value="";
 		document.getElementById("cpf").value="";
 		window.alert("Aluno salvo com sucesso!")	
-		criarUsuario(email);
-
-
+		criarUsuario(email2);
 	}
 	
 </script>
@@ -124,12 +157,13 @@ function mostrarDiv (){
 </script>
 
 <script> 
-function criarUsuario(email){
+function criarUsuario(email2){
 	password = gerarPassword();
 
-	window.alert(password);
-	firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
-		//window.alert("criou usuario");
+	//window.alert(password);
+	firebase.auth().createUserWithEmailAndPassword(email2, password).then(function(user) {
+		window.alert("criou usuario");
+		sendEmail(email2, password);
 	}, function(error) {
 		var errorCode = error.code;
 		var errorMessage = error.message;
@@ -141,5 +175,21 @@ function gerarPassword() {
     return Math.random().toString(36).slice(-10);
 }
 
-
 </script>
+
+<script type="text/javascript"> 
+    function sendEmail(email2, password) { 
+      Email.send({ 
+        Host: "smtp.gmail.com", 
+        Username: "gerenciamentofaltas@gmail.com", 
+        Password: "gerente456", 
+        To: email2, 
+        From: "gerenciamentofaltas@gmail.com", 
+        Subject: "Senha do aluno", 
+        Body: "A sua senha do portal Virtual Aluno é: " +password, 
+      }) 
+        .then(function (message) { 
+          alert("mail sent successfully") 
+        }); 
+    } 
+</script> 
